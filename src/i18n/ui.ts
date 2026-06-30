@@ -1,0 +1,136 @@
+export const languages = { fr: 'Français', en: 'English' } as const;
+export type Lang = keyof typeof languages;
+export const defaultLang: Lang = 'fr';
+
+export const ui = {
+  fr: {
+    'nav.home': 'Accueil',
+    'nav.bebe': 'Bébé',
+    'nav.pet': 'Chien & Chat',
+    'nav.about': 'L’atelier',
+    'nav.order': 'Commander',
+    'nav.shop': 'La boutique',
+
+    'cta.discover': 'Découvrir',
+    'cta.discoverBebe': 'L’univers Bébé',
+    'cta.discoverPet': 'L’univers Chien & Chat',
+    'cta.seeAll': 'Voir tout',
+    'cta.order': 'Commander sur WhatsApp',
+    'cta.orderShort': 'Commander',
+    'cta.contact': 'Écrire à Raphaëlle',
+    'cta.backShop': 'Retour à la boutique',
+
+    'home.tagline': 'Fait main en France',
+    'home.heroLine1': 'Des univers',
+    'home.heroLine2': 'cousus',
+    'home.heroLine3': 'avec amour',
+    'home.heroSub': 'Linge de lit pour bébés & accessoires pour chiens et chats. Chaque pièce est imaginée et confectionnée à la main, en France, sur mesure.',
+    'home.universesTitle': 'Deux univers, une même tendresse',
+    'home.bebeName': 'Bébé',
+    'home.bebeDesc': 'Gigoteuses, tresses de lit, mobiles, coussins, langes… tout un cocon en double gaze et Liberty.',
+    'home.petName': 'Chien & Chat',
+    'home.petDesc': 'Paniers, bandanas, sacs de transport et laisses — le chic, version compagnons.',
+    'home.featured': 'Coups de cœur',
+    'home.fabricsTitle': 'Des matières que l’on a envie de toucher',
+    'home.fabricsDesc': 'Double gaze, Liberty et paillettes, choisies une à une sur un colorama que Raphaëlle vous propose.',
+    'home.madeTitle': 'Imaginé, cousu, offert',
+    'home.madeDesc': 'Il y a des univers que l’on imagine… et ceux que vous avez créés. Chaque commande est unique et réalisée pour vous.',
+    'home.storyEyebrow': 'L’atelier Kilika',
+    'home.storyLink': 'Rencontrer Raphaëlle',
+
+    'shop.bebeTitle': 'L’univers Bébé',
+    'shop.bebeIntro': 'Un cocon tout doux pour les tout-petits, en double gaze, Liberty et paillettes.',
+    'shop.petTitle': 'L’univers Chien & Chat',
+    'shop.petIntro': 'Le confort et l’allure pour vos compagnons à quatre pattes.',
+    'shop.all': 'Tout',
+    'shop.from': 'À partir de',
+    'shop.empty': 'Bientôt de nouvelles créations ici.',
+
+    'product.options': 'Tissus & couleurs',
+    'product.sizes': 'Tailles & tarifs',
+    'product.madeToOrder': 'Sur mesure & sur commande',
+    'product.orderNote': 'Choisissez votre tissu et votre taille, puis envoyez votre demande à Raphaëlle sur WhatsApp. Elle confirme chaque pièce avec vous.',
+    'product.related': 'Dans le même esprit',
+    'product.category': 'Catégorie',
+
+    'about.eyebrow': 'L’atelier',
+    'about.title': 'Raphaëlle, les mains de Kilika',
+    'about.cta': 'Découvrir ses créations',
+
+    'footer.tagline': 'Fait main en France, avec amour.',
+    'footer.nav': 'Naviguer',
+    'footer.contact': 'Contact',
+    'footer.madeWith': 'Créations textiles faites main',
+    'footer.rights': 'Tous droits réservés.',
+
+    'wa.intro': 'Bonjour Raphaëlle ! Je suis intéressé(e) par',
+    'wa.generic': 'Bonjour Raphaëlle ! J’aimerais des informations sur les créations Kilika.',
+  },
+  en: {
+    'nav.home': 'Home',
+    'nav.bebe': 'Baby',
+    'nav.pet': 'Dog & Cat',
+    'nav.about': 'The studio',
+    'nav.order': 'Order',
+    'nav.shop': 'Shop',
+
+    'cta.discover': 'Discover',
+    'cta.discoverBebe': 'The Baby world',
+    'cta.discoverPet': 'The Dog & Cat world',
+    'cta.seeAll': 'See all',
+    'cta.order': 'Order on WhatsApp',
+    'cta.orderShort': 'Order',
+    'cta.contact': 'Message Raphaëlle',
+    'cta.backShop': 'Back to the shop',
+
+    'home.tagline': 'Handmade in France',
+    'home.heroLine1': 'Little worlds',
+    'home.heroLine2': 'stitched',
+    'home.heroLine3': 'with love',
+    'home.heroSub': 'Bed linen for babies & accessories for dogs and cats. Every piece is dreamed up and handmade in France, made to measure.',
+    'home.universesTitle': 'Two worlds, one tenderness',
+    'home.bebeName': 'Baby',
+    'home.bebeDesc': 'Sleep sacks, cot braids, mobiles, cushions, swaddles… a whole cocoon in double gauze and Liberty.',
+    'home.petName': 'Dog & Cat',
+    'home.petDesc': 'Beds, bandanas, carry bags and leashes — chic, for your companions.',
+    'home.featured': 'Favourites',
+    'home.fabricsTitle': 'Fabrics you’ll want to touch',
+    'home.fabricsDesc': 'Double gauze, Liberty and sequins, each chosen from a colour range Raphaëlle offers you.',
+    'home.madeTitle': 'Imagined, stitched, gifted',
+    'home.madeDesc': 'There are worlds we imagine… and those you create. Every order is unique and made just for you.',
+    'home.storyEyebrow': 'The Kilika studio',
+    'home.storyLink': 'Meet Raphaëlle',
+
+    'shop.bebeTitle': 'The Baby world',
+    'shop.bebeIntro': 'A soft little cocoon for the smallest ones, in double gauze, Liberty and sequins.',
+    'shop.petTitle': 'The Dog & Cat world',
+    'shop.petIntro': 'Comfort and style for your four-legged companions.',
+    'shop.all': 'All',
+    'shop.from': 'From',
+    'shop.empty': 'New creations coming here soon.',
+
+    'product.options': 'Fabrics & colours',
+    'product.sizes': 'Sizes & prices',
+    'product.madeToOrder': 'Made to measure & to order',
+    'product.orderNote': 'Pick your fabric and size, then send your request to Raphaëlle on WhatsApp. She confirms every piece with you.',
+    'product.related': 'In the same spirit',
+    'product.category': 'Category',
+
+    'about.eyebrow': 'The studio',
+    'about.title': 'Raphaëlle, the hands behind Kilika',
+    'about.cta': 'Discover her creations',
+
+    'footer.tagline': 'Handmade in France, with love.',
+    'footer.nav': 'Navigate',
+    'footer.contact': 'Contact',
+    'footer.madeWith': 'Handmade textile creations',
+    'footer.rights': 'All rights reserved.',
+
+    'wa.intro': 'Hello Raphaëlle! I’m interested in',
+    'wa.generic': 'Hello Raphaëlle! I’d love some information about Kilika creations.',
+  },
+} as const;
+
+export function t(lang: Lang) {
+  return (key: keyof typeof ui['fr']) => ui[lang][key] ?? ui.fr[key];
+}

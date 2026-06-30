@@ -1,0 +1,76 @@
+---
+import type { Lang } from '../i18n/ui';
+import { t } from '../i18n/ui';
+import { localizedPath, site, waLink } from '../lib/site';
+import { ui } from '../i18n/ui';
+import Logo from './Logo.astro';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const tr = t(lang);
+const p = (path: string) => localizedPath(path, lang);
+const year = 2026;
+const links = [
+  { href: p('/bebe'), label: tr('nav.bebe') },
+  { href: p('/chien-chat'), label: tr('nav.pet') },
+  { href: p('/a-propos'), label: tr('nav.about') },
+];
+const orderHref = waLink(ui[lang]['wa.generic']);
+---
+<footer class="footer">
+  <div class="footer__wave" aria-hidden="true">
+    <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0 64C180 24 360 24 540 56s360 64 540 40 270-72 360-72v96H0Z" fill="currentColor"/></svg>
+  </div>
+  <div class="wrap footer__inner">
+    <div class="footer__brand">
+      <Logo tone="cream" />
+      <p>{tr('footer.tagline')}</p>
+      <p class="footer__mention">{site.maker} · Kilika</p>
+    </div>
+
+    <nav class="footer__col" aria-label={tr('footer.nav')}>
+      <h3>{tr('footer.nav')}</h3>
+      <ul>
+        {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <div class="footer__col">
+      <h3>{tr('footer.contact')}</h3>
+      <ul>
+        <li><a href={orderHref} target="_blank" rel="noopener">WhatsApp · {site.phoneDisplay}</a></li>
+        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+      </ul>
+      <a class="btn btn--wa footer__cta" href={orderHref} target="_blank" rel="noopener">{tr('cta.order')}</a>
+    </div>
+  </div>
+  <div class="wrap footer__base">
+    <span>© {year} Kilika — {tr('footer.rights')}</span>
+    <span>{tr('footer.madeWith')} · 🇫🇷</span>
+  </div>
+</footer>
+
+<style>
+  .footer { position: relative; background: var(--plum); color: var(--cream); margin-top: clamp(3rem, 8vw, 7rem); }
+  .footer__wave { color: var(--plum); line-height: 0; margin-top: -1px; }
+  .footer__wave svg { width: 100%; height: clamp(50px, 7vw, 110px); transform: translateY(-99%); position: relative; display: block; }
+  .footer__inner {
+    display: grid; grid-template-columns: 1.4fr 1fr 1.2fr; gap: clamp(2rem, 5vw, 4rem);
+    padding-block: clamp(1rem, 3vw, 2rem) clamp(2rem, 5vw, 3.5rem);
+  }
+  .footer__brand p { color: color-mix(in srgb, var(--cream) 82%, transparent); margin-top: 1rem; max-width: 28ch; }
+  .footer__mention { font-size: var(--step--1); opacity: .7; }
+  .footer__col h3 { font-size: var(--step-1); margin-bottom: 1rem; }
+  .footer__col ul { display: grid; gap: .6rem; }
+  .footer__col a { color: color-mix(in srgb, var(--cream) 86%, transparent); }
+  .footer__col a:hover { color: var(--cream); text-decoration: underline; text-underline-offset: 4px; }
+  .footer__cta { margin-top: 1.4rem; }
+  .footer__base {
+    display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+    padding-block: 1.4rem; border-top: 1px solid rgba(255,255,255,.14);
+    font-size: var(--step--1); color: color-mix(in srgb, var(--cream) 70%, transparent);
+  }
+  @media (max-width: 760px) {
+    .footer__inner { grid-template-columns: 1fr; gap: 2.2rem; }
+  }
+</style>

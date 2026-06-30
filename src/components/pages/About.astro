@@ -1,0 +1,139 @@
+---
+import type { Lang } from '../../i18n/ui';
+import { t, ui } from '../../i18n/ui';
+import { localizedPath, waLink, site } from '../../lib/site';
+import aboutData from '../../content/pages/about.json';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const tr = t(lang);
+const p = (path: string) => localizedPath(path, lang);
+const a = aboutData[lang];
+const orderHref = waLink(ui[lang]['wa.generic']);
+
+const portraitCaption = lang === 'fr'
+  ? 'Portrait dessiné par l’une de ses filles'
+  : 'Portrait drawn by one of her daughters';
+
+const values = lang === 'fr'
+  ? [
+      { icon: '✶', t: 'Fait main en France', d: 'Chaque pièce est cousue à la main dans son atelier, une à une.' },
+      { icon: '✁', t: 'Sur mesure', d: 'Tissu, taille, broderie, prénom : tout se personnalise avec vous.' },
+      { icon: '♡', t: 'Matières choisies', d: 'Double gaze, Liberty et paillettes, sélectionnées un colorama à la fois.' },
+    ]
+  : [
+      { icon: '✶', t: 'Handmade in France', d: 'Every piece is sewn by hand in her studio, one at a time.' },
+      { icon: '✁', t: 'Made to measure', d: 'Fabric, size, embroidery, name: everything is personalised with you.' },
+      { icon: '♡', t: 'Chosen fabrics', d: 'Double gauze, Liberty and sequins, picked one colour range at a time.' },
+    ];
+---
+<section class="ab-hero">
+  <div class="ab-hero__blob" aria-hidden="true"></div>
+  <div class="wrap ab-hero__inner">
+    <div class="ab-hero__text">
+      <span class="eyebrow">{tr('about.eyebrow')}</span>
+      <h1 class="ab-hero__title">{a.title}</h1>
+      <p class="ab-hero__lede">{a.lede}</p>
+    </div>
+    <figure class="ab-portrait">
+      <div class="ab-portrait__frame blob">
+        <img src="/brand/raphaelle.webp" alt={`${site.maker}, créatrice de Kilika`} width="520" height="540" />
+      </div>
+      <figcaption>{portraitCaption}</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="section ab-body">
+  <div class="wrap ab-body__inner">
+    <div class="ab-prose">
+      <p>{a.p1}</p>
+      <p>{a.p2}</p>
+    </div>
+    <blockquote class="ab-quote">
+      <p>“{a.quote}”</p>
+      <cite>{a.signature}</cite>
+    </blockquote>
+  </div>
+</section>
+
+<section class="section ab-values">
+  <div class="wrap">
+    <div class="ab-values__grid">
+      {values.map((v) => (
+        <article class="value">
+          <span class="value__icon" aria-hidden="true">{v.icon}</span>
+          <h3>{v.t}</h3>
+          <p>{v.d}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="section ab-fabrics">
+  <div class="wrap ab-fabrics__inner">
+    <figure class="ab-fabrics__img blob">
+      <img src="/brand/fabrics.webp" alt="" width="760" height="520" loading="lazy" />
+    </figure>
+    <div class="ab-fabrics__text">
+      <span class="eyebrow">{lang === 'fr' ? 'Le colorama' : 'The colour range'}</span>
+      <h2>{lang === 'fr' ? 'On choisit ensemble, tissu par tissu' : 'We choose together, fabric by fabric'}</h2>
+      <p>{lang === 'fr'
+        ? 'Pour chaque commande, Raphaëlle vous propose son colorama de double gaze, de Liberty et de paillettes. À vous d’imaginer l’association ; à elle de la coudre.'
+        : 'For every order, Raphaëlle offers you her range of double gauze, Liberty and sequins. You imagine the combination; she sews it.'}</p>
+    </div>
+  </div>
+</section>
+
+<section class="section ab-cta">
+  <div class="wrap ab-cta__inner">
+    <h2>{lang === 'fr' ? 'Prête à créer la vôtre ?' : 'Ready to create yours?'}</h2>
+    <div class="ab-cta__btns">
+      <a class="btn btn--accent" href={p('/bebe')}>{tr('nav.bebe')}</a>
+      <a class="btn btn--ghost" href={p('/chien-chat')}>{tr('nav.pet')}</a>
+      <a class="btn btn--wa" href={orderHref} target="_blank" rel="noopener">{tr('cta.order')}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ab-hero { position: relative; overflow: hidden; background: var(--bebe-soft); padding-block: clamp(2.5rem, 6vw, 5rem); }
+  .ab-hero__blob { position: absolute; width: 44vw; height: 44vw; left: -12vw; bottom: -16vw; border-radius: var(--blob); background: radial-gradient(circle, var(--rose-soft), transparent 70%); opacity: .6; }
+  .ab-hero__inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(1.5rem, 5vw, 4rem); align-items: center; }
+  .ab-hero__title { font-size: var(--step-4); margin: .6rem 0 1.2rem; }
+  .ab-hero__lede { font-size: var(--step-1); color: var(--ink-soft); max-width: 46ch; }
+  .ab-portrait { display: flex; flex-direction: column; align-items: center; gap: .8rem; }
+  .ab-portrait__frame { background: var(--paper); width: min(100%, 420px); aspect-ratio: 1/1; box-shadow: 0 30px 60px -32px rgba(43,36,32,.55); }
+  .ab-portrait__frame img { width: 100%; height: 100%; object-fit: cover; }
+  .ab-portrait figcaption { font-size: var(--step--1); color: var(--ink-soft); font-style: italic; text-align: center; }
+
+  .ab-body__inner { display: grid; grid-template-columns: 1.5fr 1fr; gap: clamp(1.5rem, 5vw, 4rem); align-items: start; }
+  .ab-prose p { font-size: var(--step-1); margin-bottom: 1.3rem; max-width: 60ch; }
+  .ab-prose p:first-child::first-letter { font-family: var(--font-display); font-size: 3.4em; line-height: .8; float: left; padding: .05em .12em 0 0; color: var(--terracotta); }
+  .ab-quote { background: var(--plum); color: var(--cream); padding: clamp(1.6rem, 3vw, 2.4rem); border-radius: var(--radius-lg); position: sticky; top: 100px; }
+  .ab-quote p { font-family: var(--font-display); font-size: var(--step-2); line-height: 1.15; }
+  .ab-quote cite { display: block; margin-top: 1rem; font-style: normal; font-weight: 700; color: var(--rose); }
+
+  .ab-values__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1rem, 2.5vw, 2rem); }
+  .value { background: var(--cream-deep); border-radius: var(--radius); padding: clamp(1.4rem, 3vw, 2rem); }
+  .value__icon { display: grid; place-items: center; width: 2.4em; height: 2.4em; border-radius: 999px; background: var(--paper); color: var(--terracotta); font-size: 1.3rem; margin-bottom: 1rem; }
+  .value h3 { font-size: var(--step-1); margin-bottom: .4rem; }
+  .value p { color: var(--ink-soft); }
+
+  .ab-fabrics__inner { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.5rem, 4vw, 3.5rem); align-items: center; }
+  .ab-fabrics__img img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+  .ab-fabrics__text h2 { font-size: var(--step-2); margin: .6rem 0 1rem; }
+  .ab-fabrics__text p { color: var(--ink-soft); max-width: 46ch; }
+
+  .ab-cta { text-align: center; }
+  .ab-cta__inner h2 { font-size: var(--step-3); margin-bottom: 1.6rem; }
+  .ab-cta__btns { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; }
+
+  @media (max-width: 860px) {
+    .ab-hero__inner, .ab-body__inner, .ab-fabrics__inner { grid-template-columns: 1fr; }
+    .ab-portrait { order: -1; }
+    .ab-values__grid { grid-template-columns: 1fr; }
+    .ab-quote { position: static; }
+  }
+</style>

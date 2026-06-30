@@ -1,0 +1,70 @@
+---
+import type { Lang } from '../../i18n/ui';
+import { t, ui } from '../../i18n/ui';
+import { localizedPath, waLink } from '../../lib/site';
+import { productsByCategory } from '../../lib/products';
+import ProductCard from '../ProductCard.astro';
+
+interface Props { lang: Lang; category: 'bebe' | 'pet'; }
+const { lang, category } = Astro.props;
+const tr = t(lang);
+const products = await productsByCategory(category);
+const isBebe = category === 'bebe';
+const title = isBebe ? tr('shop.bebeTitle') : tr('shop.petTitle');
+const intro = isBebe ? tr('shop.bebeIntro') : tr('shop.petIntro');
+const orderHref = waLink(ui[lang]['wa.generic']);
+---
+<section class={`cat-hero cat-hero--${category}`}>
+  <div class="cat-hero__blob" aria-hidden="true"></div>
+  <div class="wrap cat-hero__inner">
+    <span class="eyebrow">{tr('home.tagline')}</span>
+    <h1 class="cat-hero__title">{title}</h1>
+    <p class="cat-hero__intro">{intro}</p>
+  </div>
+</section>
+
+<section class="section cat-grid-sec">
+  <div class="wrap">
+    {products.length === 0 ? (
+      <p class="cat-empty">{tr('shop.empty')}</p>
+    ) : (
+      <div class="grid grid--products">
+        {products.map((p, i) => <ProductCard product={p} lang={lang} index={i} />)}
+      </div>
+    )}
+  </div>
+</section>
+
+<section class="section cat-cta">
+  <div class="wrap cat-cta__inner">
+    <h2>{lang === 'fr' ? 'Une envie sur mesure ?' : 'A custom idea in mind?'}</h2>
+    <p>{lang === 'fr'
+      ? 'Un tissu précis, un prénom à broder, une taille particulière… Écrivez à Raphaëlle, elle imagine la pièce avec vous.'
+      : 'A specific fabric, a name to embroider, a particular size… Message Raphaëlle, she’ll dream up the piece with you.'}</p>
+    <a class="btn btn--wa" href={orderHref} target="_blank" rel="noopener">{tr('cta.order')}</a>
+  </div>
+</section>
+
+<style>
+  .cat-hero { position: relative; overflow: hidden; padding-block: clamp(2.5rem, 7vw, 5.5rem) clamp(1.5rem, 4vw, 3rem); }
+  .cat-hero--bebe { background: var(--bebe-soft); }
+  .cat-hero--pet { background: var(--pet-soft); }
+  .cat-hero__blob { position: absolute; width: 40vw; height: 40vw; right: -8vw; top: -10vw; border-radius: var(--blob); opacity: .5; }
+  .cat-hero--bebe .cat-hero__blob { background: radial-gradient(circle, var(--rose-soft), transparent 70%); }
+  .cat-hero--pet .cat-hero__blob { background: radial-gradient(circle, var(--ochre), transparent 70%); }
+  .cat-hero__inner { position: relative; z-index: 1; text-align: center; max-width: 44ch; margin-inline: auto; }
+  .cat-hero__title { font-size: var(--step-4); margin: .6rem 0 1rem; }
+  .cat-hero__intro { font-size: var(--step-1); color: var(--ink-soft); }
+
+  .grid { display: grid; gap: clamp(1.1rem, 2.5vw, 2rem); }
+  .grid--products { grid-template-columns: repeat(3, 1fr); }
+  .cat-empty { text-align: center; font-size: var(--step-1); color: var(--ink-soft); padding-block: 3rem; }
+
+  .cat-cta { text-align: center; }
+  .cat-cta__inner { max-width: 50ch; margin-inline: auto; }
+  .cat-cta h2 { font-size: var(--step-2); }
+  .cat-cta p { margin: 1rem 0 1.6rem; color: var(--ink-soft); }
+
+  @media (max-width: 900px) { .grid--products { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 460px) { .grid--products { grid-template-columns: 1fr; } }
+</style>

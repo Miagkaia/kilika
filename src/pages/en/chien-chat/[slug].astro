@@ -1,0 +1,19 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Product from '../../../components/pages/Product.astro';
+import { productsByCategory, title as pTitle, desc as pDesc } from '../../../lib/products';
+
+export async function getStaticPaths() {
+  const products = await productsByCategory('pet');
+  return products.map((p) => ({ params: { slug: p.id }, props: { product: p } }));
+}
+const { product } = Astro.props;
+---
+<Base
+  lang="en"
+  title={pTitle(product, 'en')}
+  description={pDesc(product, 'en')}
+  altPath={`/chien-chat/${product.id}`}
+>
+  <Product lang="en" product={product} />
+</Base>

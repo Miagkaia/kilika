@@ -1,0 +1,109 @@
+---
+import type { Lang } from '../i18n/ui';
+import { t } from '../i18n/ui';
+import { localizedPath, waLink } from '../lib/site';
+import { ui } from '../i18n/ui';
+import Logo from './Logo.astro';
+
+interface Props { lang: Lang; altPath?: string; }
+const { lang, altPath } = Astro.props;
+const tr = t(lang);
+const p = (path: string) => localizedPath(path, lang);
+
+const links = [
+  { href: p('/bebe'), label: tr('nav.bebe') },
+  { href: p('/chien-chat'), label: tr('nav.pet') },
+  { href: p('/a-propos'), label: tr('nav.about') },
+];
+const other: Lang = lang === 'fr' ? 'en' : 'fr';
+const toggleHref = altPath ?? (lang === 'fr' ? '/en' : '/');
+const orderHref = waLink(ui[lang]['wa.generic']);
+---
+<header class="header" data-header>
+  <div class="wrap wrap-wide header__inner">
+    <a class="header__logo" href={p('/')} aria-label="Kilika — accueil">
+      <Logo />
+    </a>
+
+    <nav class="nav" data-nav aria-label="Principal">
+      <ul class="nav__list">
+        {links.map((l) => (
+          <li><a href={l.href}>{l.label}</a></li>
+        ))}
+      </ul>
+      <div class="nav__actions">
+        <a class="lang" href={toggleHref} hreflang={other} aria-label={`Switch to ${other.toUpperCase()}`}>
+          <span class={lang === 'fr' ? 'is-on' : ''}>FR</span>
+          <span aria-hidden="true">/</span>
+          <span class={lang === 'en' ? 'is-on' : ''}>EN</span>
+        </a>
+        <a class="btn btn--wa header__order" href={orderHref} target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14.04c-.25.7-1.44 1.34-1.99 1.42-.51.08-1.15.11-1.86-.12-.43-.14-.98-.32-1.69-.62-2.97-1.28-4.91-4.27-5.06-4.47-.15-.2-1.21-1.61-1.21-3.07s.77-2.18 1.04-2.48c.27-.3.59-.37.79-.37l.57.01c.18.01.43-.07.67.51.25.6.84 2.06.91 2.21.07.15.12.32.02.52-.1.2-.15.32-.3.5-.15.18-.31.4-.45.53-.15.15-.3.31-.13.6.17.3.76 1.25 1.63 2.02 1.12 1 2.07 1.31 2.36 1.46.3.15.47.12.64-.07.18-.2.74-.86.94-1.16.2-.3.4-.25.67-.15.27.1 1.71.81 2 .96.3.15.5.22.57.35.07.12.07.71-.18 1.4Z"/></svg>
+          <span>{tr('nav.order')}</span>
+        </a>
+      </div>
+    </nav>
+
+    <button class="burger" data-burger aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky; top: 0; z-index: 50;
+    transition: box-shadow .3s;
+  }
+  /* Blurred bar as a pseudo-element so the header itself is NOT a containing
+     block for the fixed mobile drawer (backdrop-filter would break it). */
+  .header::before {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    backdrop-filter: blur(8px);
+    background: color-mix(in srgb, var(--cream) 78%, transparent);
+    transition: background .3s;
+  }
+  .header.is-scrolled { box-shadow: 0 6px 24px -18px rgba(43,36,32,.6); }
+  .header.is-scrolled::before { background: color-mix(in srgb, var(--cream) 92%, transparent); }
+  .header__inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: clamp(.7rem, 1.6vw, 1.1rem); }
+  .header__logo { display: inline-flex; }
+
+  .nav { display: flex; align-items: center; gap: clamp(1rem, 3vw, 2.4rem); }
+  .nav__list { display: flex; align-items: center; gap: clamp(1rem, 2.4vw, 2.2rem); }
+  .nav__list a {
+    font-weight: 600; font-size: var(--step-0); position: relative; padding-block: .3em;
+  }
+  .nav__list a::after {
+    content: ""; position: absolute; left: 0; right: 100%; bottom: 0; height: 2px;
+    background: var(--terracotta); border-radius: 2px; transition: right .3s ease;
+  }
+  .nav__list a:hover::after { right: 0; }
+  .nav__actions { display: flex; align-items: center; gap: 1rem; }
+  .lang { display: inline-flex; gap: .35em; font-weight: 700; font-size: var(--step--1); letter-spacing: .04em; color: var(--ink-soft); }
+  .lang .is-on { color: var(--terracotta); }
+  .header__order { padding: .6em 1.1em; font-size: var(--step--1); }
+
+  .burger { display: none; flex-direction: column; gap: 5px; padding: 8px; }
+  .burger span { width: 26px; height: 2.5px; background: var(--ink); border-radius: 3px; transition: transform .3s, opacity .3s; }
+
+  @media (max-width: 900px) {
+    .burger { display: flex; }
+    .nav {
+      position: fixed; inset: 0 0 0 auto; width: min(82vw, 360px);
+      flex-direction: column; align-items: flex-start; justify-content: center; gap: 2rem;
+      background: var(--paper); padding: 2rem var(--gutter);
+      transform: translateX(100%); transition: transform .4s cubic-bezier(.2,.8,.2,1);
+      box-shadow: -20px 0 60px -30px rgba(43,36,32,.5);
+    }
+    :global(body.nav-open) .nav { transform: none; }
+    .nav__list { flex-direction: column; align-items: flex-start; gap: 1.4rem; }
+    .nav__list a { font-family: var(--font-display); font-size: var(--step-2); }
+    .nav__actions { flex-direction: column-reverse; align-items: flex-start; gap: 1.4rem; }
+    :global(body.nav-open) .burger span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+    :global(body.nav-open) .burger span:nth-child(2) { opacity: 0; }
+    :global(body.nav-open) .burger span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+    :global(body.nav-open)::after {
+      content: ""; position: fixed; inset: 0; background: rgba(43,36,32,.35); z-index: 49;
+    }
+  }
+</style>

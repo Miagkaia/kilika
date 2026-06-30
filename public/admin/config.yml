@@ -1,0 +1,114 @@
+# ====================================================================
+#  Kilika — Espace d'administration (Decap CMS)
+#  Raphaëlle se connecte sur /admin avec son e-mail et son mot de passe.
+#  Elle peut ajouter/modifier des produits, changer les prix, les photos
+#  et les textes du site. Chaque enregistrement met le site à jour.
+# ====================================================================
+
+backend:
+  name: git-gateway
+  branch: main
+  commit_messages:
+    create: 'Nouveau produit : {{slug}}'
+    update: 'Mise à jour : {{slug}}'
+    delete: 'Suppression : {{slug}}'
+    uploadMedia: 'Photo ajoutée : {{path}}'
+    deleteMedia: 'Photo retirée : {{path}}'
+
+# Where uploaded photos are stored
+media_folder: public/uploads
+public_folder: /uploads
+
+locale: fr
+
+# Friendly French UI strings for buttons/labels are built into Decap (locale: fr)
+
+collections:
+  # ----------------------------------------------------------------
+  - name: products
+    label: Produits
+    label_singular: Produit
+    description: "Ajoutez une création, modifiez son prix, ses photos ou son texte."
+    folder: src/content/products
+    create: true
+    delete: true
+    identifier_field: title_fr
+    slug: '{{fields.title_fr | slugify}}'
+    summary: '{{title_fr}} — {{price}} € ({{category}})'
+    sortable_fields: [order, price, title_fr]
+    fields:
+      - { name: title_fr, label: 'Nom (Français)', widget: string }
+      - { name: title_en, label: 'Nom (English)', widget: string }
+      - name: category
+        label: Univers
+        widget: select
+        options:
+          - { label: 'Bébé', value: bebe }
+          - { label: 'Chien & Chat', value: pet }
+      - { name: price, label: 'Prix à partir de (€)', widget: number, value_type: int, min: 0 }
+      - { name: featured, label: 'Mettre en avant sur la page d’accueil', widget: boolean, default: false }
+      - { name: order, label: 'Ordre d’affichage (petit nombre = en premier)', widget: number, value_type: int, default: 50 }
+      - { name: desc_fr, label: 'Description (Français)', widget: text }
+      - { name: desc_en, label: 'Description (English)', widget: text }
+      - { name: fabrics, label: 'Tissus proposés', widget: list, required: false, default: [], hint: 'Ex. : Double gaze, Liberty, Bandana' }
+      - { name: colors, label: 'Couleurs proposées', widget: list, required: false, default: [] }
+      - name: sizes
+        label: 'Tailles & tarifs'
+        widget: list
+        required: false
+        label_singular: Taille
+        summary: '{{fields.label}} — {{fields.price}} €'
+        fields:
+          - { name: label, label: 'Taille / modèle', widget: string }
+          - { name: price, label: 'Prix (€)', widget: number, value_type: int }
+      - name: images
+        label: Photos
+        widget: list
+        label_singular: Photo
+        field: { name: image, label: Photo, widget: image }
+
+  # ----------------------------------------------------------------
+  - name: pages
+    label: Textes du site
+    description: "Modifiez les textes de la page d’accueil et de la page L’atelier."
+    files:
+      - name: home
+        label: "Page d’accueil"
+        file: src/content/pages/home.json
+        fields:
+          - name: fr
+            label: Français
+            widget: object
+            fields:
+              - { name: heroSub, label: 'Phrase d’accroche (sous le titre)', widget: text }
+              - { name: announce, label: 'Petit bandeau', widget: string }
+          - name: en
+            label: English
+            widget: object
+            fields:
+              - { name: heroSub, label: 'Hero subtitle', widget: text }
+              - { name: announce, label: 'Announce banner', widget: string }
+      - name: about
+        label: "Page L’atelier"
+        file: src/content/pages/about.json
+        fields:
+          - name: fr
+            label: Français
+            widget: object
+            fields:
+              - { name: title, label: Titre, widget: string }
+              - { name: lede, label: Introduction, widget: text }
+              - { name: p1, label: 'Paragraphe 1', widget: text }
+              - { name: p2, label: 'Paragraphe 2', widget: text }
+              - { name: quote, label: Citation, widget: string }
+              - { name: signature, label: Signature, widget: string }
+          - name: en
+            label: English
+            widget: object
+            fields:
+              - { name: title, label: Title, widget: string }
+              - { name: lede, label: Intro, widget: text }
+              - { name: p1, label: 'Paragraph 1', widget: text }
+              - { name: p2, label: 'Paragraph 2', widget: text }
+              - { name: quote, label: Quote, widget: string }
+              - { name: signature, label: Signature, widget: string }

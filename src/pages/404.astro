@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+import { localizedPath } from '../lib/site';
+---
+<Base lang="fr" title="Page introuvable">
+  <section class="nf">
+    <div class="wrap nf__inner">
+      <span class="eyebrow">Erreur 404</span>
+      <h1>Cette page s’est faufilée ailleurs…</h1>
+      <p>La page que vous cherchez n’existe pas ou plus. Revenons à l’atelier.</p>
+      <div class="nf__btns">
+        <a class="btn btn--accent" href={localizedPath('/', 'fr')}>Accueil</a>
+        <a class="btn btn--ghost" href={localizedPath('/bebe', 'fr')}>Bébé</a>
+        <a class="btn btn--ghost" href={localizedPath('/chien-chat', 'fr')}>Chien & Chat</a>
+      </div>
+    </div>
+  </section>
+  <style>
+    .nf { padding-block: clamp(4rem, 12vw, 9rem); text-align: center; }
+    .nf__inner { max-width: 44ch; margin-inline: auto; }
+    .nf h1 { font-size: var(--step-3); margin: .6rem 0 1rem; }
+    .nf p { color: var(--ink-soft); margin-bottom: 1.8rem; }
+    .nf__btns { display: flex; gap: .8rem; justify-content: center; flex-wrap: wrap; }
+  </style>
+</Base>
