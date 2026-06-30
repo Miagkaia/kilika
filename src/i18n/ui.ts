@@ -33,7 +33,7 @@ export const ui = {
     'home.featured': 'Coups de cœur',
     'home.fabricsTitle': 'Des matières que l’on a envie de toucher',
     'home.fabricsDesc': 'Double gaze, Liberty et paillettes, choisies une à une sur un colorama que Raphaëlle vous propose.',
-    'home.madeTitle': 'Imaginé, cousu, offert',
+    'home.madeTitle': 'Imaginé, confectionné, offert',
     'home.madeDesc': 'Il y a des univers que l’on imagine… et ceux que vous avez créés. Chaque commande est unique et réalisée pour vous.',
     'home.storyEyebrow': 'L’atelier Kilika',
     'home.storyLink': 'Rencontrer Raphaëlle',
@@ -54,7 +54,7 @@ export const ui = {
     'product.category': 'Catégorie',
 
     'about.eyebrow': 'L’atelier',
-    'about.title': 'Raphaëlle, les mains de Kilika',
+    'about.title': 'Raphaëlle, créatrice de Kilika',
     'about.cta': 'Découvrir ses créations',
 
     'footer.tagline': 'Fait main en France, avec amour.',
@@ -96,7 +96,7 @@ export const ui = {
     'home.featured': 'Favourites',
     'home.fabricsTitle': 'Fabrics you’ll want to touch',
     'home.fabricsDesc': 'Double gauze, Liberty and sequins, each chosen from a colour range Raphaëlle offers you.',
-    'home.madeTitle': 'Imagined, stitched, gifted',
+    'home.madeTitle': 'Imagined, crafted, gifted',
     'home.madeDesc': 'There are worlds we imagine… and those you create. Every order is unique and made just for you.',
     'home.storyEyebrow': 'The Kilika studio',
     'home.storyLink': 'Meet Raphaëlle',
@@ -117,7 +117,7 @@ export const ui = {
     'product.category': 'Category',
 
     'about.eyebrow': 'The studio',
-    'about.title': 'Raphaëlle, the hands behind Kilika',
+    'about.title': 'Raphaëlle, the designer behind Kilika',
     'about.cta': 'Discover her creations',
 
     'footer.tagline': 'Handmade in France, with love.',
